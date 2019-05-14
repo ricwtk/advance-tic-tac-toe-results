@@ -1,1 +1,1 @@
-[{"second_player": "player1", "moves": [0, 11, 1, 14, 2, 8, 3], "result": {"tie": false, "win": true, "winning_rule": "original"}}, {"second_player": "player2", "moves": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], "result": {"tie": false, "win": true, "winning_rule": "original"}}]
+[{"second_player": "player1", "moves": [0, 15, 1, 13, 2, 12, 3], "result": {"tie": false, "win": true, "winning_rule": "original"}}]
