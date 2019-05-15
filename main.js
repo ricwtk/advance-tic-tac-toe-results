@@ -1,12 +1,12 @@
 var app = new Vue({
   el: "#app",
   data: {
-    main_player: {},
+    main_player: "",
     games: [{
     }],
     players: {},
     scores: {},
-    showing_scoreboard: true,
+    showing_scoreboard: false,
     score_hover_text: {
       p1: "",
       p2: ""

@@ -30,6 +30,16 @@ html, body {
 #current-game {
   margin-bottom: 5px;
 }
+.text-button {
+  border: 1px solid #bbb;
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  margin: 5pt 5pt 0pt 5pt;
+  justify-content: center;
+  overflow: hidden;
+}
+.text-button > * { margin: 5pt; }
 #main-team-wrapper {
   display: flex; 
   flex-direction: column;

@@ -16,23 +16,26 @@
             <div :class="['team-block', 'mdi', 'mdi-' + players[play[0]].icon]"></div>&nbsp;vs&nbsp;<div :class="['team-block', 'mdi', 'mdi-' + players[play[1]].icon]"></div>
           </div>
         </div> -->
-        <!-- <div class="screen" id="tournament-view">
+        <div class="screen" id="tournament-view">
           <div class="screen-head">Tournament</div>
-          <div v-if="players.length > 0" id="main-team-wrapper" :title="players[main_team].name"><div class="team" id="main-team"><div>{{ players[main_team].name }}</div><div :class="['mdi', 'mdi-' + players[main_team].icon]"></div></div></div>
-          <div class="screen" id="opponents">
-            <div v-for="p,i in players" class="opponent" v-if="i != main_team">
-              <div :class="['team-block', 'mdi', 'mdi-'+p.icon]" :title="p.name"></div> -->
-              <!-- [i, main_team] -->
-              <!-- <div 
-                :class="['result-block', 'mdi'].concat( i == play[0] && main_team == play[1] ? ['playing', 'mdi-gamepad-variant'] : score[i][main_team] == 0 ? ['win', 'mdi-thumb-up-outline'] : score[i][main_team] == 1 ? ['lose', 'mdi-thumb-down-outline'] : score[i][main_team] == 2 ? ['tie', 'mdi-thumbs-up-down'] : ['yet', 'mdi-help'] )"
-                :title="i == play[0] && main_team == play[1] ? 'playing' : score[i][main_team] == 0 ? players[main_team].name + ' win' : score[i][main_team] == 1 ? players[main_team].name + ' lose' : score[i][main_team] == 2 ? 'tie' : '?'"></div> -->
-              <!-- [main_team, i] -->
-              <!-- <div
-                :class="['result-block', 'mdi'].concat( main_team == play[0] && i == play[1] ? ['playing', 'mdi-gamepad-variant'] : score[main_team][i] == 1 ? ['win', 'mdi-thumb-up-outline'] : score[main_team][i] == 0 ? ['lose', 'mdi-thumb-down-outline'] : score[main_team][i] == 2 ? ['tie', 'mdi-thumbs-up-down'] : ['yet', 'mdi-help'] )"
-                :title="main_team == play[0] && i == play[1] ? 'playing' : score[main_team][i] == 1 ? players[main_team].name + ' win' : score[main_team][i] == 0 ? players[main_team].name + ' lose' : score[main_team][i] == 2 ? 'tie' : '?'"></div>
-            </div> -->
-          <!-- </div>
-        </div> -->
+          <div class="text-button" title="open scoreboard" @click="showing_scoreboard = true">
+            <div class="mdi mdi-view-dashboard-variant"></div><div>Scoreboard</div>
+          </div>
+          <div v-if="main_player !== ''" id="main-team-wrapper" :title="players[main_player].name">
+            <div class="team" id="main-team"><div>{{ players[main_player].name }}</div><div :class="['mdi', 'mdi-' + players[main_player].icon]"></div></div>
+          </div>
+          <div class="screen" id="opponents" v-if="main_player !== ''">
+            <div v-for="k,i in player_keys_in_order" class="opponent" v-if="k != main_player">
+              <div :class="['team-block', 'mdi', 'mdi-'+players[k].icon]" :title="players[k].name"></div>
+              <div 
+                :class="['result-block', 'mdi'].concat(scores[k][main_player] == 0 ? ['win', 'mdi-thumb-up-outline'] : scores[k][main_player] == 1 ? ['lose', 'mdi-thumb-down-outline'] : scores[k][main_player] == 2 ? ['tie', 'mdi-thumbs-up-down'] : ['yet', 'mdi-help'] )"
+                :title="scores[k][main_player] == 0 ? players[main_player].name + ' win' : scores[k][main_player] == 1 ? players[main_player].name + ' lose' : scores[k][main_player] == 2 ? 'tie' : '?'"></div>
+              <div
+                :class="['result-block', 'mdi'].concat(scores[main_player][k] == 1 ? ['win', 'mdi-thumb-up-outline'] : scores[main_player][k] == 0 ? ['lose', 'mdi-thumb-down-outline'] : scores[main_player][k] == 2 ? ['tie', 'mdi-thumbs-up-down'] : ['yet', 'mdi-help'] )"
+                :title="scores[main_player][k] == 1 ? players[main_player].name + ' win' : scores[main_player][k] == 0 ? players[main_player].name + ' lose' : scores[main_player][k] == 2 ? 'tie' : '?'"></div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div class="overlay" id="scoreboard-overlay" v-show="showing_scoreboard">
