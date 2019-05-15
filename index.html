@@ -29,10 +29,12 @@
               <div :class="['team-block', 'mdi', 'mdi-'+players[k].icon]" :title="players[k].name"></div>
               <div 
                 :class="['result-block', 'mdi'].concat(scores[k][main_player] == 0 ? ['win', 'mdi-thumb-up-outline'] : scores[k][main_player] == 1 ? ['lose', 'mdi-thumb-down-outline'] : scores[k][main_player] == 2 ? ['tie', 'mdi-thumbs-up-down'] : ['yet', 'mdi-help'] )"
-                :title="scores[k][main_player] == 0 ? players[main_player].name + ' win' : scores[k][main_player] == 1 ? players[main_player].name + ' lose' : scores[k][main_player] == 2 ? 'tie' : '?'"></div>
+                :title="scores[k][main_player] == 0 ? players[main_player].name + ' win' : scores[k][main_player] == 1 ? players[main_player].name + ' lose' : scores[k][main_player] == 2 ? 'tie' : '?'"
+                @click="setGame(k,main_player)"></div>
               <div
                 :class="['result-block', 'mdi'].concat(scores[main_player][k] == 1 ? ['win', 'mdi-thumb-up-outline'] : scores[main_player][k] == 0 ? ['lose', 'mdi-thumb-down-outline'] : scores[main_player][k] == 2 ? ['tie', 'mdi-thumbs-up-down'] : ['yet', 'mdi-help'] )"
-                :title="scores[main_player][k] == 1 ? players[main_player].name + ' win' : scores[main_player][k] == 0 ? players[main_player].name + ' lose' : scores[main_player][k] == 2 ? 'tie' : '?'"></div>
+                :title="scores[main_player][k] == 1 ? players[main_player].name + ' win' : scores[main_player][k] == 0 ? players[main_player].name + ' lose' : scores[main_player][k] == 2 ? 'tie' : '?'"
+                @click="setGame(main_player,k)"></div>
             </div>
           </div>
         </div>
@@ -58,9 +60,10 @@
               <tr v-for="k,i in player_keys_in_order">
                 <td v-if="i == 0" :rowspan="player_number" class="mdi mdi-numeric-1-box-outline"></td>
                 <td class="score-team-label"><div :class="['mdi', 'mdi-'+players[k].icon]"></div></td>
-                <td v-for="l,j in player_keys_in_order" :class="scores[l] ? scores[l][k] == 2 ? 'tie' : scores[l][k] == 1 ? 'win' : scores[l][k] == 0 ? 'lose' : 'yet' : 'yet'"
-                  @mouseover="l == k ? setScoreHover('', '') : setScoreHover(l,k)"
+                <td v-for="l,j in player_keys_in_order" :class="scores[k] ? scores[k][l] == 2 ? 'tie' : scores[k][l] == 1 ? 'win' : scores[k][l] == 0 ? 'lose' : 'yet' : 'yet'"
+                  @mouseover="k == l ? setScoreHover('', '') : setScoreHover(k,l)"
                   @mouseleave="setScoreHover('','')"
+                  @click="showGame(k,l)"
                 ></td>
               </tr>
             </table>
