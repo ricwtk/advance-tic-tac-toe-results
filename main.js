@@ -14,7 +14,9 @@ var app = new Vue({
     score_hover_text: {
       p1: "",
       p2: ""
-    }
+    },
+    grid_size: 4,
+    squares: Array(4*4).fill(-1)
   },
   computed: {
     player_number: function () { return Object.keys(this.players).length; },

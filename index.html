@@ -10,12 +10,6 @@
   <body>
     <div id="app">
       <div class="screen" id="left-panel">
-        <!-- <div id="current-game">
-          <div class="screen-head">Current game</div>
-          <div id="current-game-info" v-if="players.length > 0">
-            <div :class="['team-block', 'mdi', 'mdi-' + players[play[0]].icon]"></div>&nbsp;vs&nbsp;<div :class="['team-block', 'mdi', 'mdi-' + players[play[1]].icon]"></div>
-          </div>
-        </div> -->
         <div class="screen" id="tournament-view">
           <div class="screen-head">Tournament</div>
           <div class="text-button" title="open scoreboard" @click="showing_scoreboard = true">
@@ -38,6 +32,96 @@
             </div>
           </div>
         </div>
+      </div>
+
+      <div class="screen" id="main-content">
+        <!-- <div class="message" v-show="winning_player.length > 0">
+          Player&nbsp;<div :class="['mdi', 'mdi-' + ((winning_player.length > 0) ? players[play[winning_player[0].n]].icon : '')]"></div>&nbsp;won!
+        </div>
+        <div class="message" v-show="tie">
+          It's a tie!
+        </div>
+        <div class="message hide" v-show="!tie && !(winning_player.length > 0)">
+          Placeholder
+        </div> -->
+        <div id="game-pad">
+          <div class="squarerow" v-for="r in [...Array(grid_size+1).keys()]">
+            <template v-if="r < grid_size">
+              <div :class="['square', 'mdi', (s == -1) ? '' : 'mdi-'+players[play[s]].icon]" v-for="(s,i) in squares.slice(r*grid_size,r*grid_size+grid_size)"></div>
+              <div :class="['square', 'mdi', 'mdi-numeric-' + r + '-box']"></div>
+            </template>
+            <template v-else>
+              <div :class="['square', 'mdi', 'mdi-numeric-' + s + '-box']" v-for="s in [...Array(grid_size).keys()]"></div>
+              <div class="square"></div>
+            </template>
+            <!-- @click="(s == -1) ? fillAndSwitch(r*grid_size+i) : null" -->
+          </div>
+        </div>
+        <div id="controls">
+          <!-- <div v-if="players.length > 0" v-for="p in play" :key="p" :class="['player-block', (play[currentplayer] == p) ? 'selected' : '', 'mdi', 'mdi-' + players[p].icon]"></div> -->
+          <!-- <div class="mdi mdi-plus control-block" @click="choosing_player = true" title="add player"></div> -->
+          <!-- <div class="mdi mdi-minus control-block" @click="player.pop()" title="remove last player"></div> -->
+          <!-- <div class="mdi mdi-playlist-plus control-block" @click="changeGrid(1)" title="increase grid by 1"></div> -->
+          <!-- <div class="mdi mdi-playlist-minus control-block" @click="changeGrid(-1)" title="reduce grid by 1"></div> -->
+          <!-- <div class="mdi mdi-account-switch control-block" @click="switchPlayer" title="skip to next player"></div> -->
+          <!-- <div class="mdi mdi-eraser control-block" @click="clearBoard" title="clear game board"></div> -->
+          <!-- <div :class="['mdi', 'control-block', 'mdi-numeric-2-box-outline', additional_rule ? 'selected' : 'unselected']" @click="additional_rule = !additional_rule" title="toggle additional rule"></div> -->
+          <!-- <div class="mdi mdi-account-group-outline control-block" @click="setting_player = true" title="choose players"></div> -->
+          <!-- <div class="mdi mdi-play-speed control-block" @click="triggerStart" title="trigger start"></div> -->
+          <!-- <div class="mdi mdi-view-dashboard-variant control-block" @click="showing_scoreboard = !showing_scoreboard" :title="showing_scoreboard ? 'hide scoreboard' : 'show scoreboard'"></div> -->
+          <!-- <div :class="['mdi', 'control-block', tournament_initiated ? 'mdi-pause' : 'mdi-play']" @click="toggleTournament" :title="tournament_initiated ? 'pause tournament after this' : 'start tournament'"></div> -->
+          <!-- <div class="mdi mdi-backup-restore control-block" @click="resetTournament" title="reset tournament"></div> -->
+          <div class="mdi mdi-skip-previous control-block"></div>
+          <div class="mdi mdi-play control-block"></div>
+          <div class="mdi mdi-skip-next control-block"></div>
+          <div class="mdi mdi-settings control-block"></div>
+        </div>
+      </div>
+
+      <div class="screen" id="side-panel">
+        <div class="screen" id="current-game">
+          <div class="screen-head">Current game</div>
+          <div class="screen">
+            <div id="current-game-info" v-if="game.first_player !== ''">
+              <div :class="['team-block', 'mdi', 'mdi-' + players[game.first_player].icon]"></div>&nbsp;vs&nbsp;<div :class="['team-block', 'mdi', 'mdi-' + players[game.second_player].icon]"></div>
+            </div>
+            <div id="current-game-result" v-if="game.first_player !== ''">
+              <template v-if="game.result.tie">
+                tie
+              </template>
+              <template v-else>
+                <div :class="['mdi', 'mdi-' + (game.result.win ? players[game.first_player].icon : players[game.second_player].icon) ]"></div>
+                &nbsp;<div>wins</div>
+              </template>
+            </div>
+          </div>
+        </div>
+        <div class="screen" id="game-moves">
+          <div class="screen-head">Moves</div>
+          <div class="screen" id="game-moves-content">
+            <div v-for="m,i in game.moves" class="game-move">
+              <!-- {{ String(i+1).padStart(2,'0') }}.&nbsp;<div :class="['mdi', 'mdi-' + (i%2 == 0 ? players[game.first_player].icon : players[game.second_player].icon) ]"></div>:&nbsp;{{ m }} -->
+              <div :class="['team-block', 'mdi', 'mdi-' + (i%2 == 0 ? players[game.first_player].icon : players[game.second_player].icon) ]"></div>
+              <div :class="['move-block', 'mdi', 'mdi-numeric-' + Math.floor(m/grid_size) + '-box' ]"></div>
+              <div :class="['move-block', 'mdi', 'mdi-numeric-' + m%grid_size + '-box' ]"></div>
+            </div>
+          </div>
+        </div>
+        <!-- <div class="screen" id="game-info-list">
+          <div class="screen-head">Game info</div>
+          <div class="screen" id="game-info-content">
+            <div v-for="v,k in game_info" class="game-info-row">
+              <div class="game-info-key">{{ k }}</div>
+              <div class="game-info-value" v-html="v"></div>
+            </div>
+          </div>
+        </div> -->
+        <!-- <div class="screen" id="log-list">
+          <div class="screen-head">Log</div>
+          <div class="screen" id="log-content">
+              <div v-for="l in log" class="log-msg" v-html="l"></div>
+          </div>
+        </div> -->
       </div>
 
       <div class="overlay" id="scoreboard-overlay" v-show="showing_scoreboard">

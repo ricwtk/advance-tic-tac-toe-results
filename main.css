@@ -24,11 +24,8 @@ html, body {
   font-weight: lighter;
   border-bottom: 1px dashed #aaa;
 }
-#tournament-view, #current-game {
+#tournament-view, #current-game, #game-moves {
   border: 1px solid #bbb;
-}
-#current-game {
-  margin-bottom: 5px;
 }
 .text-button {
   border: 1px solid #bbb;
@@ -75,12 +72,12 @@ html, body {
   display: flex;
   flex-direction: row;
 }
-.result-block, .team-block {
+.result-block, .team-block, .move-block {
   border: 1px solid #ddd;
   padding: 10px;
   font-size: 150%;
 }
-.result-block {
+.result-block, .move-block {
   border-left: 0px;
 }
 .playing {
@@ -122,6 +119,60 @@ html, body {
 .control-block.unselected {
   color: gray;
   background-color: #dddddd;
+}
+#main-content {
+  flex-grow: 3;
+}
+#game-pad {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+  padding: 30px;
+  overflow: auto;
+}
+.squarerow {
+  display: flex;
+  flex-grow: 1;
+  flex-shrink: 0;
+  flex-basis: 0;
+  flex-direction: row;
+  width: 100%;
+}
+.square {
+  display: flex;
+  flex-grow: 1;
+  flex-shrink: 0;
+  flex-basis: 0;
+  font-size: 300%;
+  min-width: 3ex;
+  min-height: 3ex; 
+  border: 1px solid gray;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  -moz-user-select: none;
+}
+.square:hover {
+  background-color: #dddddd;
+}
+.square:first-child { border-left-width: 0pt!important; }
+.square:nth-last-child(2) { border-right-width: 0pt!important; }
+.square:last-child { border-width: 0pt!important; font-size: 200%; justify-content: flex-start; padding: 5pt; min-width: 1ex; flex-grow: 0; }
+.square:last-child:hover { background-color: #fff!important; }
+.squarerow:first-child .square { border-top-width: 0pt!important; }
+.squarerow:nth-last-child(2) .square { border-bottom-width: 0pt!important; }
+.squarerow:last-child .square { border-width: 0pt!important; font-size: 200%; align-items: flex-start; padding: 5pt; min-height: 1ex; }
+.squarerow:last-child { flex-grow: 0; }
+.squarerow:last-child .square:hover { background-color: #fff!important; }
+#controls { 
+  display: flex;
+  flex-direction: row;
+  font-size: 200%;
+  padding: 5px 0px;
+  justify-content: center;
+  z-index: 1000;
 }
 .overlay {
   position: fixed;
@@ -184,4 +235,32 @@ html, body {
 .score-team-label {
   /* font-weight: lighter; */
   font-size: 80%;
+}
+#current-game {
+  margin-bottom: 5px;
+  flex-grow: 0.5;
+}
+#current-game-info {
+  font-size: 180%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+}
+#current-game-result {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  font-size: 180%;
+  padding: 5pt;
+}
+.game-move {
+  display: flex;
+  flex-direction: row;
+  padding: 5pt;
+  justify-content: center;
+}
+.game-move:hover > * {
+  background-color: #eee; 
 }
