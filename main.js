@@ -4,8 +4,17 @@ var app = new Vue({
     main_player: {},
     games: [{
     }],
-    players: [],
-    scores: {}
+    players: {},
+    scores: {},
+    showing_scoreboard: true,
+    score_hover_text: {
+      p1: "",
+      p2: ""
+    }
+  },
+  computed: {
+    player_number: function () { return Object.keys(this.players).length; },
+    player_keys_in_order: function () { let plist = Object.keys(this.players); plist.sort(); return plist; }
   },
   mounted: function () {
     this.getPlayers()
@@ -45,6 +54,10 @@ var app = new Vue({
             this.$set(this.scores, k, row); 
           })
       });
+    },
+    setScoreHover: function (m1, m2) {
+      this.$set(this.score_hover_text, 'p1', m1);
+      this.$set(this.score_hover_text, 'p2', m2);
     }
   }
 })

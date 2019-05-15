@@ -93,3 +93,85 @@ html, body {
   background-color: #9E9E9E;
   color: white;
 }
+.control-block {
+  width: 3ex;
+  height: 3ex;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  -moz-user-select: none;
+  border: 1pt solid gray;
+  margin-left: 5px;
+  cursor: pointer;
+  background-color: #fff;
+}
+.control-block:hover {
+  background-color: #eee;
+}
+.control-block.unselected {
+  color: gray;
+  background-color: #dddddd;
+}
+.overlay {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0px;
+  left: 0px;
+  z-index: 100;
+  background-color: #ffffffaa;
+  display: flex;
+  flex-direction: column;
+}
+.overlay-box {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  margin: 50px;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: white;
+  border: 1pt solid #dddddd;
+  overflow: auto;
+} 
+.overlay-title {
+  font-weight: lighter;
+  font-size: 150%;
+}
+.overlay-content {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  flex-grow: 1;
+  padding: 10px;
+  /* font-size: 200%; */
+}
+.overlay-controls {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  /* font-size: 200%; */
+}
+#scoreboard-overlay .overlay-content {
+  justify-content: center;
+  align-content: center;
+  overflow: scroll;
+}
+#scoreboard td {
+  text-align: center;
+  width: 2ex;
+  height: 1ex;
+}
+#score-text {
+  border: 1px solid #ddd;
+  border-left: 0px;
+  border-right: 0px;
+  margin-bottom: 3px;
+  display: flex;
+  flex-direction: row;
+}
+.score-team-label {
+  /* font-weight: lighter; */
+  font-size: 80%;
+}

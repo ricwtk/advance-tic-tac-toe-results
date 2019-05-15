@@ -16,21 +16,69 @@
             <div :class="['team-block', 'mdi', 'mdi-' + players[play[0]].icon]"></div>&nbsp;vs&nbsp;<div :class="['team-block', 'mdi', 'mdi-' + players[play[1]].icon]"></div>
           </div>
         </div> -->
-        <div class="screen" id="tournament-view">
+        <!-- <div class="screen" id="tournament-view">
           <div class="screen-head">Tournament</div>
           <div v-if="players.length > 0" id="main-team-wrapper" :title="players[main_team].name"><div class="team" id="main-team"><div>{{ players[main_team].name }}</div><div :class="['mdi', 'mdi-' + players[main_team].icon]"></div></div></div>
           <div class="screen" id="opponents">
             <div v-for="p,i in players" class="opponent" v-if="i != main_team">
-              <div :class="['team-block', 'mdi', 'mdi-'+p.icon]" :title="p.name"></div>
+              <div :class="['team-block', 'mdi', 'mdi-'+p.icon]" :title="p.name"></div> -->
               <!-- [i, main_team] -->
-              <div 
+              <!-- <div 
                 :class="['result-block', 'mdi'].concat( i == play[0] && main_team == play[1] ? ['playing', 'mdi-gamepad-variant'] : score[i][main_team] == 0 ? ['win', 'mdi-thumb-up-outline'] : score[i][main_team] == 1 ? ['lose', 'mdi-thumb-down-outline'] : score[i][main_team] == 2 ? ['tie', 'mdi-thumbs-up-down'] : ['yet', 'mdi-help'] )"
-                :title="i == play[0] && main_team == play[1] ? 'playing' : score[i][main_team] == 0 ? players[main_team].name + ' win' : score[i][main_team] == 1 ? players[main_team].name + ' lose' : score[i][main_team] == 2 ? 'tie' : '?'"></div>
+                :title="i == play[0] && main_team == play[1] ? 'playing' : score[i][main_team] == 0 ? players[main_team].name + ' win' : score[i][main_team] == 1 ? players[main_team].name + ' lose' : score[i][main_team] == 2 ? 'tie' : '?'"></div> -->
               <!-- [main_team, i] -->
-              <div
+              <!-- <div
                 :class="['result-block', 'mdi'].concat( main_team == play[0] && i == play[1] ? ['playing', 'mdi-gamepad-variant'] : score[main_team][i] == 1 ? ['win', 'mdi-thumb-up-outline'] : score[main_team][i] == 0 ? ['lose', 'mdi-thumb-down-outline'] : score[main_team][i] == 2 ? ['tie', 'mdi-thumbs-up-down'] : ['yet', 'mdi-help'] )"
                 :title="main_team == play[0] && i == play[1] ? 'playing' : score[main_team][i] == 1 ? players[main_team].name + ' win' : score[main_team][i] == 0 ? players[main_team].name + ' lose' : score[main_team][i] == 2 ? 'tie' : '?'"></div>
-            </div>
+            </div> -->
+          <!-- </div>
+        </div> -->
+      </div>
+
+      <div class="overlay" id="scoreboard-overlay" v-show="showing_scoreboard">
+        <div class="overlay-box">
+          <div class="overlay-title">
+            Scoreboard
+          </div>
+          <div class="overlay-content">
+            <table id="scoreboard" v-if="player_number > 0">
+              <tr>
+                <td></td>
+                <td></td>
+                <td :colspan="player_number" class="mdi mdi-numeric-2-box-outline"></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td></td>
+                <td v-for="k in player_keys_in_order" class="score-team-label"><div :class="['mdi', 'mdi-'+players[k].icon]"></div></td>
+              </tr>
+              <tr v-for="k,i in player_keys_in_order">
+                <td v-if="i == 0" :rowspan="player_number" class="mdi mdi-numeric-1-box-outline"></td>
+                <td class="score-team-label"><div :class="['mdi', 'mdi-'+players[k].icon]"></div></td>
+                <td v-for="l,j in player_keys_in_order" :class="scores[l] ? scores[l][k] == 2 ? 'tie' : scores[l][k] == 1 ? 'win' : scores[l][k] == 0 ? 'lose' : 'yet' : 'yet'"
+                  @mouseover="l == k ? setScoreHover('', '') : setScoreHover(l,k)"
+                  @mouseleave="setScoreHover('','')"
+                ></td>
+              </tr>
+            </table>
+          </div>
+          <div id="score-text">
+            <template v-if="score_hover_text.p1 !== ''">
+              <div :class="['mdi', 'mdi-'+players[score_hover_text.p1].icon]"></div>&nbsp;{{ players[score_hover_text.p1].name }}
+              &nbsp;vs&nbsp;
+              <div :class="['mdi', 'mdi-'+players[score_hover_text.p2].icon]"></div>&nbsp;{{ players[score_hover_text.p2].name }}
+              &nbsp;|&nbsp;
+              <template v-if="[0,1].includes(scores[score_hover_text.p1][score_hover_text.p2])">
+                <div :class="['mdi', 'mdi-'+players[scores[score_hover_text.p1][score_hover_text.p2] == 0 ? score_hover_text.p2 : score_hover_text.p1].icon]"></div>
+                &nbsp;{{ players[scores[score_hover_text.p1][score_hover_text.p2] == 0 ? score_hover_text.p2 : score_hover_text.p1].name }}&nbsp;wins
+              </template>
+              <template v-else-if="scores[score_hover_text.p1][score_hover_text.p2] == 2">tie</template>
+              <template v-else-if="scores[score_hover_text.p1][score_hover_text.p2] == -1">TBD</template>
+            </template>
+            <div>&nbsp;</div>
+          </div>
+          <div class="overlay-controls">
+            <div class="control-block mdi mdi-close" @click="showing_scoreboard = false"></div>
           </div>
         </div>
       </div>
