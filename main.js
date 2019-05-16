@@ -23,7 +23,8 @@ var app = new Vue({
       min: 10,
       max: 2000,
       value: 500
-    }
+    },
+    show_main_player_list: false
   },
   computed: {
     player_number: function () { return Object.keys(this.players).length; },
@@ -118,6 +119,9 @@ var app = new Vue({
           this.auto_playback = false;
         }
       }
+    },
+    changeMainPlayer: function (m_player) {
+      this.showGame(m_player, this.game.second_player != m_player ? this.game.second_player : this.player_keys_in_order[0] != m_player ? this.player_keys_in_order[0] : this.player_keys_in_order[1] );
     }
   }
 })

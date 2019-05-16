@@ -42,10 +42,13 @@ html, body {
   flex-direction: column;
   justify-content: center;
   padding: 5px;
+  user-select: none;
+  -moz-user-select: none;
 }
 .team {
   display: flex;
   flex-direction: row;
+  cursor: pointer;
 }
 .team > *:first-child {
   flex-grow: 1;
