@@ -166,6 +166,14 @@ html, body {
 .squarerow:first-child .square { border-width: 0pt!important; font-size: 200%; align-items: flex-start; padding: 5pt; min-height: 2ex; }
 .squarerow:first-child { flex-grow: 0; }
 .squarerow:first-child .square:hover { background-color: #fff!important; }
+#playback-control {
+  display: flex;
+  flex-direction: row;
+}
+#playback-range {
+  flex-grow: 1;
+  margin: 0pt 10pt;
+}
 #controls { 
   display: flex;
   flex-direction: row;

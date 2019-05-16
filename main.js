@@ -18,7 +18,12 @@ var app = new Vue({
     grid_size: 4,
     squares: Array(4*4).fill(-1),
     show_move: 0,
-    auto_playback: false
+    auto_playback: false,
+    playback_settings: {
+      min: 10,
+      max: 2000,
+      value: 500
+    }
   },
   computed: {
     player_number: function () { return Object.keys(this.players).length; },
@@ -108,7 +113,7 @@ var app = new Vue({
       if (this.auto_playback) {
         this.show_move += 1;
         if (this.show_move < this.game.moves.length) {
-          return window.setTimeout(this.playback, 500);
+          return window.setTimeout(this.playback, parseInt(this.playback_settings.value,10));
         } else {
           this.auto_playback = false;
         }

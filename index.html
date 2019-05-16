@@ -54,6 +54,10 @@
             <div :class="['square', 'mdi', (s == -1) ? '' : s == 0 ? 'mdi-'+players[game.first_player].icon : 'mdi-'+players[game.second_player].icon ]" v-for="(s,i) in squares.slice(r*grid_size,r*grid_size+grid_size)"></div>
           </div>
         </div>
+        <div id="playback-control">
+          <input id="playback-range" type="range" :min="playback_settings.min" :max="playback_settings.max" v-model="playback_settings.value" title="playback interval">
+          <div>{{ playback_settings.value }}&nbsp;ms</div>
+        </div>
         <div id="controls">
           <!-- <div v-if="players.length > 0" v-for="p in play" :key="p" :class="['player-block', (play[currentplayer] == p) ? 'selected' : '', 'mdi', 'mdi-' + players[p].icon]"></div> -->
           <!-- <div class="mdi mdi-plus control-block" @click="choosing_player = true" title="add player"></div> -->
@@ -72,7 +76,7 @@
           <div :class="['mdi', 'control-block', auto_playback ? 'mdi-pause' : 'mdi-play', game.moves.length > 0 ? '' : 'unselected' ]" title="playback" @click="game.moves.length > 0 ? auto_playback = !auto_playback : auto_playback = false"></div>
           <div :class="[ 'mdi', 'mdi-skip-next', 'control-block', show_move >= game.moves.length ? 'unselected' : '' ]" title="next move" @click="show_move = Math.min(game.moves.length, show_move + 1)"></div>
           <div class="mdi mdi-restore control-block" title="clear board" @click="show_move = 0"></div>
-          <div class="mdi mdi-settings control-block" title="playback setting"></div>
+          <div class="mdi mdi-settings control-block" title="playback setting" @click="showing_settings = !showing_settings"></div>
         </div>
       </div>
 
