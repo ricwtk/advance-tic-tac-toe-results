@@ -68,9 +68,9 @@
           <!-- <div class="mdi mdi-view-dashboard-variant control-block" @click="showing_scoreboard = !showing_scoreboard" :title="showing_scoreboard ? 'hide scoreboard' : 'show scoreboard'"></div> -->
           <!-- <div :class="['mdi', 'control-block', tournament_initiated ? 'mdi-pause' : 'mdi-play']" @click="toggleTournament" :title="tournament_initiated ? 'pause tournament after this' : 'start tournament'"></div> -->
           <!-- <div class="mdi mdi-backup-restore control-block" @click="resetTournament" title="reset tournament"></div> -->
-          <div :class="[ 'mdi', 'mdi-skip-previous', 'control-block', show_move <= 0 ? 'unselected' : '' ]" title="last move" @click="show_move -= 1"></div>
+          <div :class="[ 'mdi', 'mdi-skip-previous', 'control-block', show_move <= 0 ? 'unselected' : '' ]" title="last move" @click="show_move = Math.max(0, show_move - 1)"></div>
           <div class="mdi mdi-play control-block" title="playback"></div>
-          <div :class="[ 'mdi', 'mdi-skip-next', 'control-block', show_move >= game.moves.length ? 'unselected' : '' ]" title="next move" @click="show_move += 1"></div>
+          <div :class="[ 'mdi', 'mdi-skip-next', 'control-block', show_move >= game.moves.length ? 'unselected' : '' ]" title="next move" @click="show_move = Math.min(game.moves.length, show_move + 1)"></div>
           <div class="mdi mdi-restore control-block" title="clear board" @click="show_move = 0"></div>
           <div class="mdi mdi-settings control-block" title="playback setting"></div>
         </div>
