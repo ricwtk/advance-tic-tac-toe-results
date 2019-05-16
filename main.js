@@ -16,11 +16,22 @@ var app = new Vue({
       p2: ""
     },
     grid_size: 4,
-    squares: Array(4*4).fill(-1)
+    squares: Array(4*4).fill(-1),
+    show_move: 0
   },
   computed: {
     player_number: function () { return Object.keys(this.players).length; },
     player_keys_in_order: function () { let plist = Object.keys(this.players); plist.sort(); return plist; }
+  },
+  watch: {
+    show_move: function () {
+      this.squares = Array(this.grid_size**2).fill(-1);
+      if (this.game.moves.length > 0) {
+        this.game.moves.forEach((m,i) => {
+          if (i < this.show_move) this.$set(this.squares, m, i%2);
+        });
+      }
+    }
   },
   mounted: function () {
     this.getPlayers()

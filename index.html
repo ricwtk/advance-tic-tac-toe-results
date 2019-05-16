@@ -51,7 +51,7 @@
           </div>
           <div class="squarerow" v-for="r in [...Array(grid_size).keys()]">
             <div :class="['square', 'mdi', 'mdi-numeric-' + r + '-box']"></div>
-            <div :class="['square', 'mdi', (s == -1) ? '' : 'mdi-'+players[play[s]].icon]" v-for="(s,i) in squares.slice(r*grid_size,r*grid_size+grid_size)"></div>
+            <div :class="['square', 'mdi', (s == -1) ? '' : s == 0 ? 'mdi-'+players[game.first_player].icon : 'mdi-'+players[game.second_player].icon ]" v-for="(s,i) in squares.slice(r*grid_size,r*grid_size+grid_size)"></div>
           </div>
         </div>
         <div id="controls">
@@ -68,11 +68,11 @@
           <!-- <div class="mdi mdi-view-dashboard-variant control-block" @click="showing_scoreboard = !showing_scoreboard" :title="showing_scoreboard ? 'hide scoreboard' : 'show scoreboard'"></div> -->
           <!-- <div :class="['mdi', 'control-block', tournament_initiated ? 'mdi-pause' : 'mdi-play']" @click="toggleTournament" :title="tournament_initiated ? 'pause tournament after this' : 'start tournament'"></div> -->
           <!-- <div class="mdi mdi-backup-restore control-block" @click="resetTournament" title="reset tournament"></div> -->
-          <div class="mdi mdi-skip-previous control-block"></div>
-          <div class="mdi mdi-play control-block"></div>
-          <div class="mdi mdi-skip-next control-block"></div>
-          <div class="mdi mdi-restore control-block"></div>
-          <div class="mdi mdi-settings control-block"></div>
+          <div :class="[ 'mdi', 'mdi-skip-previous', 'control-block', show_move <= 0 ? 'unselected' : '' ]" title="last move" @click="show_move -= 1"></div>
+          <div class="mdi mdi-play control-block" title="playback"></div>
+          <div :class="[ 'mdi', 'mdi-skip-next', 'control-block', show_move >= game.moves.length ? 'unselected' : '' ]" title="next move" @click="show_move += 1"></div>
+          <div class="mdi mdi-restore control-block" title="clear board" @click="show_move = 0"></div>
+          <div class="mdi mdi-settings control-block" title="playback setting"></div>
         </div>
       </div>
 
@@ -97,8 +97,7 @@
         <div class="screen" id="game-moves">
           <div class="screen-head">Moves</div>
           <div class="screen" id="game-moves-content">
-            <div v-for="m,i in game.moves" class="game-move">
-              <!-- {{ String(i+1).padStart(2,'0') }}.&nbsp;<div :class="['mdi', 'mdi-' + (i%2 == 0 ? players[game.first_player].icon : players[game.second_player].icon) ]"></div>:&nbsp;{{ m }} -->
+            <div v-for="m,i in game.moves" class="game-move" @click="show_move = i+1">
               <div :class="['team-block', 'mdi', 'mdi-' + (i%2 == 0 ? players[game.first_player].icon : players[game.second_player].icon) ]"></div>
               <div :class="['move-block', 'mdi', 'mdi-numeric-' + Math.floor(m/grid_size) + '-box' ]"></div>
               <div :class="['move-block', 'mdi', 'mdi-alpha-' + String.fromCharCode(97 + m%grid_size) + '-box' ]"></div>
