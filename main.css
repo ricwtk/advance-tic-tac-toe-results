@@ -24,8 +24,12 @@ html, body {
   font-weight: lighter;
   border-bottom: 1px dashed #aaa;
 }
-#tournament-view, #current-game, #game-moves {
+#tournament-view, #current-game, #game-moves, #time-complexity-scoreboard-panel {
   border: 1px solid #bbb;
+}
+#time-complexity-scoreboard-panel {
+  margin-top: 5pt;
+  padding-bottom: 5pt;
 }
 .text-button {
   border: 1px solid #bbb;
@@ -36,6 +40,7 @@ html, body {
   justify-content: center;
   overflow: hidden;
 }
+.text-button:hover { background-color: #eee; }
 .text-button > * { margin: 5pt; }
 #main-team-wrapper {
   display: flex; 
@@ -183,7 +188,6 @@ html, body {
   font-size: 200%;
   padding: 5px 0px;
   justify-content: center;
-  z-index: 1000;
 }
 .overlay {
   position: fixed;
@@ -217,13 +221,11 @@ html, body {
   align-content: flex-start;
   flex-grow: 1;
   padding: 10px;
-  /* font-size: 200%; */
 }
 .overlay-controls {
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
-  /* font-size: 200%; */
 }
 #scoreboard-overlay .overlay-content {
   justify-content: center;
@@ -244,7 +246,6 @@ html, body {
   flex-direction: row;
 }
 .score-team-label {
-  /* font-weight: lighter; */
   font-size: 80%;
 }
 #current-game {
@@ -277,4 +278,66 @@ html, body {
 }
 .game-move:hover > * {
   background-color: #eee; 
+}
+#time-complexity-ranking-overlay .overlay-content {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+}
+#time-complexity-ranking-overlay .overlay-content > * {
+  display: flex;
+  flex-direction: row;
+}
+#test-states {
+  overflow: auto;
+}
+.test-state {
+  padding: 5pt;
+  margin: 0 auto;
+}
+.test-state:hover, .hl-test-state {
+  background-color: #ddd;
+}
+#test-table-wrapper {
+  display: flex;
+  flex-direction: row;
+  overflow: auto;
+}
+#test-table {
+  border-collapse: collapse;
+  margin: 0 auto;
+}
+#test-table tr:nth-child(2n+4) {
+  background-color: #ddd;
+} 
+.hl {
+  background-color: #555;
+  color: #fff;
+}
+.test-time {
+  border-right: 1px solid #999;
+}
+#test-table td{
+  text-align: center;
+  padding: 8pt 5pt;
+}
+.tt-row {
+  display: flex;
+  flex-direction: row;
+}
+.tt-cell {
+  width: 3ex;
+  height: 3ex;
+  border: 1px solid gray;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+}
+.tt-cell:hover {
+  background-color: #ddd;
+}
+.tt-label {
+  display: flex;
+  justify-content: center;
 }

@@ -24,11 +24,23 @@ var app = new Vue({
       max: 2000,
       value: 500
     },
-    show_main_player_list: false
+    show_main_player_list: false,
+    showing_time_complexity_ranking: false,
+    time_test: {},
+    time_test_players: ['circle-outline', 'close'],
+    time_test_highlight_row_col: [-1, -1],
+    time_state_highlight: -1
   },
   computed: {
     player_number: function () { return Object.keys(this.players).length; },
-    player_keys_in_order: function () { let plist = Object.keys(this.players); plist.sort(); return plist; }
+    player_keys_in_order: function () { let plist = Object.keys(this.players); plist.sort(); return plist; },
+    time_ranked_players: function () {
+      let plist = Object.keys(this.time_test.test_results);
+      plist.sort((a,b) => {
+        return this.time_test.test_results[a].total - this.time_test.test_results[b].total;
+      });
+      return plist;
+    }
   },
   watch: {
     show_move: function () {
@@ -50,6 +62,10 @@ var app = new Vue({
       })
       .then(() => {
         console.log(this.scores);
+      });
+    this.getTimeTest()
+      .then(() => {
+        console.log(this.time_test)
       });
   },
   methods: {
@@ -122,6 +138,16 @@ var app = new Vue({
     },
     changeMainPlayer: function (m_player) {
       this.showGame(m_player, this.game.second_player != m_player ? this.game.second_player : this.player_keys_in_order[0] != m_player ? this.player_keys_in_order[0] : this.player_keys_in_order[1] );
+    },
+    getTimeTest: function () {
+      let req = new Request('./results/timeresult.json');
+      return fetch(req)
+        .then(r => {
+          if (r.status == 200) return r.json();
+          else throw new Error('Error fetching time complexity result')
+        })
+        .then(r => { this.time_test = r; })
+        .catch(err => { console.error(err); });
     }
   }
 })
