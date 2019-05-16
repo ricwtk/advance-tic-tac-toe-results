@@ -15,8 +15,8 @@
           <div class="text-button" title="open scoreboard" @click="showing_scoreboard = true">
             <div class="mdi mdi-view-dashboard-variant"></div><div>Scoreboard</div>
           </div>
-          <div v-if="main_player !== ''" id="main-team-wrapper" :title="players[main_player].name">
-            <div class="team" id="main-team" @click="show_main_player_list = !show_main_player_list"><div>{{ players[main_player].name }}</div><div :class="['mdi', 'mdi-' + players[main_player].icon]"></div></div>
+          <div v-if="main_player !== ''" id="main-team-wrapper">
+            <div class="team" id="main-team" @click="show_main_player_list = !show_main_player_list" :title="players[main_player].name"><div>{{ players[main_player].name }}</div><div :class="['mdi', 'mdi-' + players[main_player].icon]"></div></div>
             <div v-if="show_main_player_list" id="main-team-list">
               <div v-for="p in player_keys_in_order" v-if="p !== main_player" class="team" @click="changeMainPlayer(p); show_main_player_list = false;"><div>{{ players[p].name }}</div><div :class="['mdi', 'mdi-' + players[p].icon]"></div></div>
             </div>
