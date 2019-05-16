@@ -45,16 +45,13 @@
           Placeholder
         </div> -->
         <div id="game-pad">
-          <div class="squarerow" v-for="r in [...Array(grid_size+1).keys()]">
-            <template v-if="r < grid_size">
-              <div :class="['square', 'mdi', (s == -1) ? '' : 'mdi-'+players[play[s]].icon]" v-for="(s,i) in squares.slice(r*grid_size,r*grid_size+grid_size)"></div>
-              <div :class="['square', 'mdi', 'mdi-numeric-' + r + '-box']"></div>
-            </template>
-            <template v-else>
-              <div :class="['square', 'mdi', 'mdi-numeric-' + s + '-box']" v-for="s in [...Array(grid_size).keys()]"></div>
-              <div class="square"></div>
-            </template>
-            <!-- @click="(s == -1) ? fillAndSwitch(r*grid_size+i) : null" -->
+          <div class="squarerow">
+            <div class="square"></div>
+            <div :class="['square', 'mdi', 'mdi-alpha-' + String.fromCharCode(97 + s) + '-box']" v-for="s in [...Array(grid_size).keys()]"></div>
+          </div>
+          <div class="squarerow" v-for="r in [...Array(grid_size).keys()]">
+            <div :class="['square', 'mdi', 'mdi-numeric-' + r + '-box']"></div>
+            <div :class="['square', 'mdi', (s == -1) ? '' : 'mdi-'+players[play[s]].icon]" v-for="(s,i) in squares.slice(r*grid_size,r*grid_size+grid_size)"></div>
           </div>
         </div>
         <div id="controls">
@@ -82,7 +79,7 @@
       <div class="screen" id="side-panel">
         <div class="screen" id="current-game">
           <div class="screen-head">Current game</div>
-          <div class="screen">
+          <div class="screen" id="current-game-content">
             <div id="current-game-info" v-if="game.first_player !== ''">
               <div :class="['team-block', 'mdi', 'mdi-' + players[game.first_player].icon]"></div>&nbsp;vs&nbsp;<div :class="['team-block', 'mdi', 'mdi-' + players[game.second_player].icon]"></div>
             </div>
@@ -104,7 +101,7 @@
               <!-- {{ String(i+1).padStart(2,'0') }}.&nbsp;<div :class="['mdi', 'mdi-' + (i%2 == 0 ? players[game.first_player].icon : players[game.second_player].icon) ]"></div>:&nbsp;{{ m }} -->
               <div :class="['team-block', 'mdi', 'mdi-' + (i%2 == 0 ? players[game.first_player].icon : players[game.second_player].icon) ]"></div>
               <div :class="['move-block', 'mdi', 'mdi-numeric-' + Math.floor(m/grid_size) + '-box' ]"></div>
-              <div :class="['move-block', 'mdi', 'mdi-numeric-' + m%grid_size + '-box' ]"></div>
+              <div :class="['move-block', 'mdi', 'mdi-alpha-' + String.fromCharCode(97 + m%grid_size) + '-box' ]"></div>
             </div>
           </div>
         </div>
