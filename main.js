@@ -17,7 +17,8 @@ var app = new Vue({
     },
     grid_size: 4,
     squares: Array(4*4).fill(-1),
-    show_move: 0
+    show_move: 0,
+    auto_playback: false
   },
   computed: {
     player_number: function () { return Object.keys(this.players).length; },
@@ -31,6 +32,9 @@ var app = new Vue({
           if (i < this.show_move) this.$set(this.squares, m, i%2);
         });
       }
+    },
+    auto_playback: function () {
+      if (this.auto_playback) this.playback();
     }
   },
   mounted: function () {
@@ -99,6 +103,16 @@ var app = new Vue({
           }
         })
         .catch(err => { console.error(err); });
+    },
+    playback: function () {
+      if (this.auto_playback) {
+        this.show_move += 1;
+        if (this.show_move < this.game.moves.length) {
+          return window.setTimeout(this.playback, 500);
+        } else {
+          this.auto_playback = false;
+        }
+      }
     }
   }
 })
