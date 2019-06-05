@@ -24,8 +24,12 @@ html, body {
   font-weight: lighter;
   border-bottom: 1px dashed #aaa;
 }
-#tournament-view, #current-game, #game-moves, #time-complexity-scoreboard-panel {
+#tournament-view, #current-game, #game-moves, #time-complexity-scoreboard-panel, #team-display-panel {
   border: 1px solid #bbb;
+}
+#team-display-panel {
+  margin-bottom: 5pt;
+  padding-bottom: 5pt;
 }
 #time-complexity-scoreboard-panel {
   margin-top: 5pt;
@@ -39,6 +43,7 @@ html, body {
   margin: 5pt 5pt 0pt 5pt;
   justify-content: center;
   overflow: hidden;
+  flex-shrink: 0;
 }
 .text-button:hover { background-color: #eee; }
 .text-button > * { margin: 5pt; }
@@ -74,6 +79,7 @@ html, body {
   align-items: center;
   justify-content: flex-start;
   align-content: center;
+  min-height: 200pt;
 }
 .opponent {
   margin: 5px 0;
@@ -340,4 +346,16 @@ html, body {
 .tt-label {
   display: flex;
   justify-content: center;
+}
+.team-info {
+  display: flex;
+  flex-direction: column;
+  padding: 10pt;
+  margin: 5pt;
+  border: 1px #bbb solid;
+}
+.team-info > .team-name {
+  font-weight: 800;
+  display: flex;
+  flex-direction: row;
 }

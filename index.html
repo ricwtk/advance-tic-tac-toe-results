@@ -10,6 +10,11 @@
   <body>
     <div id="app">
       <div class="screen" id="left-panel">
+        <div id="team-display-panel">
+          <div class="text-button" title="show team list" @click="showing_team_list = true">
+            <div class="mdi mdi-home-group"></div><div>Show teams</div>
+          </div>
+        </div>
         <div class="screen" id="tournament-view">
           <div class="screen-head">Tournament</div>
           <div class="text-button" title="open scoreboard" @click="showing_scoreboard = true">
@@ -144,53 +149,21 @@
         </div>
       </div>
 
-      <div class="overlay" id="time-complexity-ranking-overlay" v-show="showing_time_complexity_ranking">
+      <div class="overlay" id="team-list-overlay" v-show="showing_team_list">
         <div class="overlay-box">
           <div class="overlay-title">
-            Time complexity ranking
+            Teams
           </div>
           <div class="overlay-content">
-            <div>As player&nbsp;<div :class="['mdi', 'mdi-' + time_test_players[time_test.test_player]]"></div></div>
-            <div id="test-states">
-              <div v-for="state,i in time_test.test_states" :class="['test-state', i == time_state_highlight ? 'hl-test-state' : '']">
-                <div v-for="r in [...Array(grid_size).keys()]" class="tt-row">
-                  <div v-for="c in [...Array(grid_size).keys()]" :class="['tt-cell', 'mdi', 'mdi-' + (state[r*grid_size + c] == -1 ? '' : time_test_players[state[r*grid_size + c]])]">
-                  </div>
-                </div>
-                <div :class="['tt-label', 'mdi', 'mdi-alpha-' + String.fromCharCode(97 + i) + '-box']"></div>
+            <template v-if="player_keys_in_order.length > 0">
+              <div v-for="p in player_keys_in_order" class="team-info">
+                <div class="team-name"><div :class="['mdi', 'mdi-'+players[p].icon]"></div>&nbsp;{{ players[p].name }}</div>
+                <div v-for="m in players[p].members" class="team-member">{{ m }}</div>
               </div>
-            </div>
-            <div id="test-table-wrapper">
-              <table id="test-table" v-if="time_test.test_results">
-                <tr>
-                  <td></td>
-                  <td></td>
-                  <td v-for="s,i in time_test.test_states" colspan="2" @mouseover="time_state_highlight=i" @mouseleave="time_state_highlight=-1"><div :class="['mdi', 'mdi-alpha-' + String.fromCharCode(97+i) + '-box']"></div></td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <td></td>
-                  <td></td>
-                  <template v-for="s,i in time_test.test_states">
-                    <td @mouseover="time_state_highlight=i; time_test_highlight_row_col=[-1,i*2]" @mouseleave="time_state_highlight=-1; time_test_highlight_row_col=[-1,-1]"><div class="mdi mdi-grid"></div></td>
-                    <td @mouseover="time_state_highlight=i; time_test_highlight_row_col=[-1,i*2+1]" @mouseleave="time_state_highlight=-1; time_test_highlight_row_col=[-1,-1]"><div class="mdi mdi-timelapse"></div></td>
-                  </template>  
-                  <td><div class="mdi mdi-sigma"></div></td>
-                </tr>
-                <tr v-for="p,i in time_ranked_players">
-                  <td :class="time_test_highlight_row_col[0] == i ? 'hl' : ''" @mouseover="time_test_highlight_row_col=[i,-1]" @mouseleave="time_test_highlight_row_col=[-1,-1]">{{ i+1 }}.</td>
-                  <td :class="time_test_highlight_row_col[0] == i ? 'hl' : ''" @mouseover="time_test_highlight_row_col=[i,-1]" @mouseleave="time_test_highlight_row_col=[-1,-1]"><div :class="['mdi', 'mdi-' + players[p].icon]"></div></td>
-                  <template v-for="s,j in time_test.test_results[p].each">
-                    <td :class="time_test_highlight_row_col[0] == i || time_test_highlight_row_col[1]/2 == j ? 'hl' : ''" @mouseover="time_test_highlight_row_col=[i,j*2]; time_state_highlight=j" @mouseleave="time_test_highlight_row_col=[-1,-1]; time_state_highlight=-1">{{ s[0] }}</td>
-                    <td :class="['test-time', time_test_highlight_row_col[0] == i || (time_test_highlight_row_col[1]-1)/2 == j ? 'hl' : '']" @mouseover="time_test_highlight_row_col=[i,j*2+1]; time_state_highlight=j" @mouseleave="time_test_highlight_row_col=[-1,-1]; time_state_highlight=-1">{{ s[1].toFixed(3) }}</td>
-                  </template>  
-                  <td :class="time_test_highlight_row_col[0] == i || time_test_highlight_row_col[1]/2 == time_test.test_states.length ? 'hl' : ''" @mouseover="time_test_highlight_row_col=[i,time_test.test_states.length*2]" @mouseleave="time_test_highlight_row_col=[-1,-1]">{{ time_test.test_results[p].total.toFixed(3) }}</td>
-                </tr>
-              </table>
-            </div>
+            </template>
           </div>
           <div class="overlay-controls">
-            <div class="control-block mdi mdi-close" @click="showing_time_complexity_ranking = false"></div>
+            <div class="control-block mdi mdi-close" @click="showing_team_list = false"></div>
           </div>
         </div>
       </div>

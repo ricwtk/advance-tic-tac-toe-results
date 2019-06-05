@@ -26,6 +26,7 @@ var app = new Vue({
     },
     show_main_player_list: false,
     showing_time_complexity_ranking: false,
+    showing_team_list: false,
     time_test: {},
     time_test_players: ['circle-outline', 'close'],
     time_test_highlight_row_col: [-1, -1],
@@ -33,7 +34,15 @@ var app = new Vue({
   },
   computed: {
     player_number: function () { return Object.keys(this.players).length; },
-    player_keys_in_order: function () { let plist = Object.keys(this.players); plist.sort(); return plist; },
+    player_keys_in_order: function () { 
+      let plist = Object.keys(this.players); 
+      plist.sort((a,b) => {
+        let pa = this.players[a].name;
+        let pb = this.players[b].name;
+        return pa < pb ? -1 : pa > pb ? 1 : 0;
+      }); 
+      return plist; 
+    },
     time_ranked_players: function () {
       let plist = Object.keys(this.time_test.test_results);
       plist.sort((a,b) => {
