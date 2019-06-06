@@ -20,6 +20,9 @@
           <div class="text-button" title="open scoreboard" @click="showing_scoreboard = true">
             <div class="mdi mdi-view-dashboard-variant"></div><div>Scoreboard</div>
           </div>
+          <div class="text-button" title="open ranking" @click="showing_ranking = true">
+            <div class="mdi mdi-chevron-triple-up"></div><div>Ranking</div>
+          </div>
           <div v-if="main_player !== ''" id="main-team-wrapper">
             <div class="team" id="main-team" @click="show_main_player_list = !show_main_player_list" :title="players[main_player].name"><div>{{ players[main_player].name }}</div><div :class="['mdi', 'mdi-' + players[main_player].icon]"></div></div>
             <div v-if="show_main_player_list" id="main-team-list">
@@ -167,6 +170,68 @@
           </div>
         </div>
       </div>
+
+      <div class="overlay" id="ranking-overlay" v-show="showing_ranking">
+        <div class="overlay-box">
+          <div class="overlay-title">
+            Ranking
+          </div>
+          <div class="overlay-content">
+            <table id="ranking" v-if="player_number > 0">
+              <tr>
+                <td></td>
+                <td></td>
+                <td colspan="3"><span class="mdi mdi-numeric-1-box-outline"></span>&nbsp;<b>As 1<sup>st</sup> player</b></td>
+                <td colspan="3"><span class="mdi mdi-numeric-2-box-outline"></span>&nbsp;<b>As 2<sup>nd</sup> player</b></td>
+                <td colspan="3"><span class="mdi mdi-sigma"></span>&nbsp;<b>Total</b></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td></td>
+                <td class="win-light">Win</td>
+                <td class="lose-light">Loss</td>
+                <td class="tie-light">Tie</td>
+                <td class="win-light">Win</td>
+                <td class="lose-light">Loss</td>
+                <td class="tie-light">Tie</td>
+                <td class="win-light">Win</td>
+                <td class="lose-light">Loss</td>
+                <td class="tie-light">Tie</td>
+              </tr>
+              <tr v-for="k,i in player_keys_in_rank">
+                <td>{{ i+1 }}</td>
+                <td><span :class="['mdi', 'mdi-'+players[k].icon]"></span>&nbsp;{{ players[k].name }}</td>
+                <td class="win-light">{{ ranking[k].asFirst.win }}</td>
+                <td class="lose-light">{{ ranking[k].asFirst.loss }}</td>
+                <td class="tie-light">{{ ranking[k].asFirst.tie }}</td>
+                <td class="win-light">{{ ranking[k].asSecond.win }}</td>
+                <td class="lose-light">{{ ranking[k].asSecond.loss }}</td>
+                <td class="tie-light">{{ ranking[k].asSecond.tie }}</td>
+                <td class="win-light">{{ ranking[k].total.win }}</td>
+                <td class="lose-light">{{ ranking[k].total.loss }}</td>
+                <td class="tie-light">{{ ranking[k].total.tie }}</td>
+              </tr>
+              <tr>
+                <td>&nbsp;</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+            </table>
+          </div>
+          <div class="overlay-controls">
+            <div class="control-block mdi mdi-close" @click="showing_ranking = false"></div>
+          </div>
+        </div>
+      </div>
+
     </div>
 
     <script src="./main.js"></script>

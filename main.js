@@ -10,7 +10,10 @@ var app = new Vue({
     },
     players: {},
     scores: {},
+    scores_loaded: false,
     showing_scoreboard: false,
+    showing_ranking: false,
+    showing_team_list: false,
     score_hover_text: {
       p1: "",
       p2: ""
@@ -26,7 +29,6 @@ var app = new Vue({
     },
     show_main_player_list: false,
     showing_time_complexity_ranking: false,
-    showing_team_list: false,
     time_test: {},
     time_test_players: ['circle-outline', 'close'],
     time_test_highlight_row_col: [-1, -1],
@@ -47,6 +49,46 @@ var app = new Vue({
       let plist = Object.keys(this.time_test.test_results);
       plist.sort((a,b) => {
         return this.time_test.test_results[a].total - this.time_test.test_results[b].total;
+      });
+      return plist;
+    },
+    ranking: function () {
+      if (!this.scores_loaded) return {}
+      let ranks = {};
+      this.player_keys_in_order.forEach(
+        p => 
+        ranks[p] = {
+          asFirst: { win: 0, loss: 0, tie: 0 },
+          asSecond: { win: 0, loss: 0, tie: 0 },
+          total: { win: 0, loss: 0, tie: 0 }
+        }
+      );
+      this.player_keys_in_order.map(p => {
+        let score = Object.keys(this.scores[p]).map(x => this.scores[p][x]);
+        ranks[p].asFirst.tie = score.reduce((total, s) => s == 2 ? total+=1 : total, 0);
+        ranks[p].asFirst.win = score.reduce((total, s) => s == 1 ? total+=1 : total, 0);
+        ranks[p].asFirst.loss = score.reduce((total, s) => s == 0 ? total+=1 : total, 0);
+
+        score = this.player_keys_in_order.map(x => {
+          return this.scores[x][p];
+        });
+        ranks[p].asSecond.tie = score.reduce((total, s) => s == 2 ? total+=1 : total, 0);
+        ranks[p].asSecond.loss = score.reduce((total, s) => s == 1 ? total+=1 : total, 0);
+        ranks[p].asSecond.win = score.reduce((total, s) => s == 0 ? total+=1 : total, 0);
+
+        ranks[p].total.win = ranks[p].asFirst.win + ranks[p].asSecond.win;
+        ranks[p].total.loss = ranks[p].asFirst.loss + ranks[p].asSecond.loss;
+        ranks[p].total.tie = ranks[p].asFirst.tie + ranks[p].asSecond.tie;
+      });
+      return ranks;
+    },
+    player_keys_in_rank: function () {
+      let plist = Object.keys(this.ranking);
+      plist.sort((a,b) => {
+        let diffwin = this.ranking[b].total.win - this.ranking[a].total.win;
+        let diffloss = this.ranking[a].total.loss - this.ranking[b].total.loss;
+        let difftie = this.ranking[b].total.tie - this.ranking[a].total.tie;
+        return diffwin == 0 ? diffloss == 0 ? difftie == 0 ? 0 : difftie : diffloss : diffwin;
       });
       return plist;
     }
@@ -71,6 +113,7 @@ var app = new Vue({
       })
       .then(() => {
         console.log(this.scores);
+        this.scores_loaded = true;
       });
     this.getTimeTest()
       .then(() => {

@@ -359,3 +359,41 @@ html, body {
   display: flex;
   flex-direction: row;
 }
+#ranking-overlay .overlay-content {
+  overflow: auto;
+  justify-content: center;
+}
+#ranking {
+  border-collapse: collapse;
+}
+#ranking td {
+  padding: 3pt;
+  padding-left: 10pt;
+  padding-right: 10pt;
+}
+#ranking td:nth-child(3n+2):not(:last-child),
+#ranking tr:first-child td:nth-child(n+2):not(:last-child){
+  border-right: 1px #bbb solid;
+}
+#ranking td:nth-child(n+3) {
+  text-align: center;
+}
+#ranking td:first-child {
+  text-align: right;
+}
+#ranking tr:nth-child(2),
+#ranking tr:nth-last-child(2) {
+  border-bottom: 1px #bbb solid;
+}
+.win-light {
+  background-color: #80e27e;
+  color: black;
+}
+.lose-light {
+  background-color: #ff7961;
+  color: black;
+}
+.tie-light {
+  background-color: #fff350;
+  color: black;
+}
